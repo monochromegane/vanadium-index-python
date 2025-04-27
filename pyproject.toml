@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "vanadiumindex"
+version = "0.0.1"
+description = "Python wrapper for vanadium-index."
+authors = ["monochromegane"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+ipython = "^9.2.0"
+black = "^25.1.0"
+isort = "^6.0.1"
+flake8 = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
