@@ -12,5 +12,6 @@ jobs:
       with:
         python-version: 3.13
     - uses: actions/checkout@v4
+    - run: curl -sSL https://install.python-poetry.org | python -
     - run: poetry install
     - run: poetry run pytest
