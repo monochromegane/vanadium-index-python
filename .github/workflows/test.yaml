@@ -21,6 +21,6 @@ jobs:
     - uses: actions/checkout@v4
     - run: curl -sSL https://install.python-poetry.org | python -
     - run: poetry install
-    - run: poetry run download_lib.py
-    - run: poetry run build_ffi.py
+    - run: poetry run python download_lib.py
+    - run: poetry run python build_ffi.py
     - run: poetry run pytest
