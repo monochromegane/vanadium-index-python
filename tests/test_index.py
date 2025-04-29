@@ -62,3 +62,11 @@ def test_index(type_with_options):
     loaded_results, loaded_dists = loaded_index.search(query, k)
     assert results == loaded_results
     assert dists == loaded_dists
+
+
+def test_error():
+    with pytest.raises(RuntimeError):
+        VanadiumIndex(
+            num_features=0,
+            type_with_options=AsFlat(),
+        )

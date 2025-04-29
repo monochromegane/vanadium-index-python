@@ -192,4 +192,5 @@ class VanadiumIndex:
         return index
 
     def __del__(self):
-        lib.FreeIndex(self.handle[0])
+        if hasattr(self, "handle"):
+            lib.FreeIndex(self.handle[0])
