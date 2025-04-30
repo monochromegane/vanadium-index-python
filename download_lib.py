@@ -7,7 +7,7 @@ import platform
 from typing import Tuple
 
 LIB_NAME = "vanadium-index"
-LIB_VERSION = "0.0.2"
+LIB_VERSION = "0.0.3"
 
 MODULE_NAME = LIB_NAME.replace("-", "")
 LIB_DIR = os.path.join(os.path.dirname(__file__), MODULE_NAME, "lib")
