@@ -10,7 +10,7 @@ MODULE_NAME = LIB_NAME.replace("-", "")
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 lib_dir = os.path.join(current_dir, MODULE_NAME, "lib")
-ext = "dylib" if sys.platform == "darwin" else "so" if sys.platform.startswith("linux") else "dll"
+ext = "dylib" if sys.platform == "darwin" else "so" if sys.platform.startswith("linux") else "lib"
 
 ffibuilder.set_source(
     module_name=f"{MODULE_NAME}.lib.libvanadium",
