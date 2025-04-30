@@ -1,6 +1,5 @@
 import os
 import sys
-import shutil
 from cffi import FFI
 
 ffibuilder = FFI()
@@ -10,7 +9,16 @@ MODULE_NAME = LIB_NAME.replace("-", "")
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 lib_dir = os.path.join(current_dir, MODULE_NAME, "lib")
-ext = "dylib" if sys.platform == "darwin" else "so" if sys.platform.startswith("linux") else "lib"
+
+if sys.platform == "win32":
+    libraries = [LIB_NAME]
+    library_dirs = [lib_dir]
+    extra_objects = [] 
+else:
+    ext = "dylib" if sys.platform == "darwin" else "so"
+    libraries = []
+    library_dirs = []
+    extra_objects = [os.path.join(lib_dir, f"{LIB_NAME}.{ext}")]
 
 ffibuilder.set_source(
     module_name=f"{MODULE_NAME}.lib.libvanadium",
@@ -18,7 +26,9 @@ ffibuilder.set_source(
         #include "{LIB_NAME}.h"
     """,
     include_dirs=[lib_dir],
-    extra_objects=[os.path.join(lib_dir, f"{LIB_NAME}.{ext}")],
+    libraries=libraries,
+    library_dirs=library_dirs,
+    extra_objects=extra_objects,
     extra_link_args = [],
 )
 
