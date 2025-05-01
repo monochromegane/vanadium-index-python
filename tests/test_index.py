@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 import pytest
 
 from vanadiumindex.index import (  # isort: skip
@@ -37,6 +40,40 @@ def test_index(type_with_options):
     )
     index.train(vec)
     index.add(vec)
-    index.search(query, k)
+    results, dists = index.search(query, k)
 
-    assert True
+    assert len(results) == len(query)
+    assert len(dists) == len(query)
+    assert all(isinstance(x, list) for x in results)
+    assert all(isinstance(x, list) for x in dists)
+    assert len(results[0]) == k
+    assert len(results[1]) == k
+    assert len(dists[0]) == k
+    assert len(dists[1]) == k
+    assert results[0][0] == 1
+    assert results[1][0] == 3
+    assert dists[0][0] == 0.0
+    assert dists[1][0] == 0.0
+
+    # Save and load test
+    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+        # On Windows, we need to create and close the file first
+        path = tmp.name
+
+    try:
+        index.save(path)
+        loaded_index = VanadiumIndex.load(path)
+
+        loaded_results, loaded_dists = loaded_index.search(query, k)
+        assert results == loaded_results
+        assert dists == loaded_dists
+    finally:
+        os.remove(path)
+
+
+def test_error():
+    with pytest.raises(RuntimeError):
+        VanadiumIndex(
+            num_features=0,
+            type_with_options=AsFlat(),
+        )
