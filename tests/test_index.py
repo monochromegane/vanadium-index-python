@@ -1,3 +1,4 @@
+import os
 import tempfile
 
 import pytest
@@ -55,13 +56,19 @@ def test_index(type_with_options):
     assert dists[1][0] == 0.0
 
     # Save and load test
-    with tempfile.NamedTemporaryFile() as tmp:
-        index.save(tmp.name)
-        loaded_index = VanadiumIndex.load(tmp.name)
+    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+        # On Windows, we need to create and close the file first
+        path = tmp.name
 
-    loaded_results, loaded_dists = loaded_index.search(query, k)
-    assert results == loaded_results
-    assert dists == loaded_dists
+    try:
+        index.save(path)
+        loaded_index = VanadiumIndex.load(path)
+
+        loaded_results, loaded_dists = loaded_index.search(query, k)
+        assert results == loaded_results
+        assert dists == loaded_dists
+    finally:
+        os.remove(path)
 
 
 def test_error():
