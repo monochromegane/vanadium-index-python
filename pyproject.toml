@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vanadiumindex"
-version = "0.0.1"
+version = "0.0.2"
 description = "Python wrapper for vanadium-index."
 authors = ["monochromegane"]
 license = "MIT"
