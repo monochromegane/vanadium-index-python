@@ -16,8 +16,8 @@ if sys.platform == "win32":
     extra_objects = [] 
 else:
     ext = "dylib" if sys.platform == "darwin" else "so"
-    libraries = []
-    library_dirs = []
+    libraries: list[str] = []
+    library_dirs: list[str] = []
     extra_objects = [os.path.join(lib_dir, f"{LIB_NAME}.{ext}")]
 
 ffibuilder.set_source(
